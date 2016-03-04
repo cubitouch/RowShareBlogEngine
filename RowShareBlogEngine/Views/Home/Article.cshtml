@@ -1,0 +1,15 @@
+﻿@using RowShareBlogEngine.Models
+@model ArticleModel
+@{
+//ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>@Model.Title</h2>
+        <p>
+            @Html.Raw(@Model.Content)
+        </p>
+        <p><a class="btn btn-default" href="/">Get back home!</a></p>
+    </div>
+</div>

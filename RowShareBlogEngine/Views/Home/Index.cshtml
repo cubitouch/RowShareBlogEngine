@@ -1,0 +1,23 @@
+﻿@using RowShareBlogEngine.Models
+@model BlogModel
+@{
+//ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>@Model.Title</h1>
+    <p class="lead">@Model.Description</p>
+</div>
+
+@foreach (ArticleModel article in Model.Articles)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h2>@article.Title</h2>
+            <p>
+                @Html.Raw(@article.TruncatedContent)
+            </p>
+            <p><a class="btn btn-default" href="/Home/article?id=@article.Id">Learn more &raquo;</a></p>
+        </div>
+    </div>
+}
