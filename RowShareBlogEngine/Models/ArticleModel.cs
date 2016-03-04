@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace RowShareBlogEngine.Models
@@ -19,7 +20,8 @@ namespace RowShareBlogEngine.Models
             get
             {
                 var truncateLength = 120;
-                return Content.Substring(0, truncateLength) + (Content.Length > truncateLength ? "..." : "");
+                var realContent = Regex.Replace(Content, "<.*?>", string.Empty);
+                return realContent.Substring(0, (realContent.Length < truncateLength ? realContent.Length : truncateLength)) + (realContent.Length > truncateLength ? "..." : "");
             }
         }
     }
