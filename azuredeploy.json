@@ -32,7 +32,7 @@
         },
         "RowShareTableId": {
             "type": "string",
-            "defaultValue": "Your RowShare table id"
+            "defaultValue": ""
         },
         "repoUrl": {
             "type": "string"
