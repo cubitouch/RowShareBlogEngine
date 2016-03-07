@@ -77,12 +77,6 @@
                         "[concat('Microsoft.Web/Sites/', parameters('siteName'))]"
                     ],
                     "properties": {
-                        "appSettings": [
-                            {
-                                "name": "RowShareTableId",
-                                "value": "[parameters('RowShareTableId')]"
-                            }
-                        ]
                     }
                 },
                 {
