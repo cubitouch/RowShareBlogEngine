@@ -31,8 +31,7 @@
             "defaultValue": "0"
         },
         "RowShareTableId": {
-            "type": "string",
-            "defaultValue": ""
+            "type": "string"
         },
         "repoUrl": {
             "type": "string"

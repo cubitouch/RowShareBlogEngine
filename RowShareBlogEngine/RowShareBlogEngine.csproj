@@ -179,6 +179,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.js" />
+    <Content Include="Content\jquery-2.2.1.min.js" />
     <Content Include="External\Readme.txt" />
     <Content Include="External\x64\CodeFluent.Runtime.Compression.dll" />
     <Content Include="External\x86\CodeFluent.Runtime.Compression.dll" />

@@ -15,7 +15,6 @@ namespace RowShareBlogEngine.Controllers
             get
             {
                 return ConfigurationManager.AppSettings["RowShareTableId"];
-
             }
         }
         public ActionResult Index()
@@ -23,6 +22,7 @@ namespace RowShareBlogEngine.Controllers
             BlogModel blog = new BlogModel();
             blog.LoadBlog(BlogId, true);
 
+            ViewBag.BlogId = BlogId;
             ViewBag.BlogTitle = blog.Title;
             ViewBag.BlogDescription = blog.Description;
             ViewBag.BlogKeywords = blog.Title;
@@ -35,6 +35,7 @@ namespace RowShareBlogEngine.Controllers
             ArticleModel article = new ArticleModel();
             article.LoadArticle(id);
 
+            ViewBag.BlogId = BlogId;
             ViewBag.BlogTitle = blog.Title;
             ViewBag.BlogDescription = blog.Description;
             ViewBag.BlogKeywords = article.Keywords;
