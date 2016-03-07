@@ -1,7 +1,7 @@
 ﻿@using RowShareBlogEngine.Models
 @model BlogModel
 @{
-//ViewBag.Title = "Home Page";
+    ViewBag.Title = ViewBag.BlogTitle;
 }
 
 <div class="jumbotron">
@@ -9,11 +9,13 @@
     <p class="lead">@Model.Description</p>
 </div>
 
-@foreach (ArticleModel article in Model.Articles)
+@foreach (ArticleModel article in Model.Articles.OrderByDescending(a => a.Date).Where(a => a.IsPublished && a.Date <= DateTime.Now))
 {
     <div class="row">
         <div class="col-md-12">
             <h2>@article.Title</h2>
+            <span class="badge">@article.Date</span><span class="badge">@article.Category</span>
+            <hr />
             <p>
                 @Html.Raw(@article.TruncatedContent)
             </p>

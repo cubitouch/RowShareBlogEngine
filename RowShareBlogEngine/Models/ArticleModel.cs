@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
+using RowShare.API;
 
 namespace RowShareBlogEngine.Models
 {
@@ -23,6 +21,19 @@ namespace RowShareBlogEngine.Models
                 var realContent = Regex.Replace(Content, "<.*?>", string.Empty);
                 return realContent.Substring(0, (realContent.Length < truncateLength ? realContent.Length : truncateLength)) + (realContent.Length > truncateLength ? "..." : "");
             }
+        }
+
+        public void LoadArticle(string id)
+        {
+            Row row = Row.GetRowById(id);
+            
+            Id = row.Id;
+            Title = row.Values["Title"];
+            Category = row.Values["Category"];
+            Date = DateTime.Parse(row.Values["Date"]);
+            IsPublished = bool.Parse(row.Values["Published"]);
+            Keywords = row.Values["Keywords"];
+            Content = row.Values["Content"];
         }
     }
 }

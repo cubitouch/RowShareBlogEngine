@@ -1,12 +1,14 @@
 ﻿@using RowShareBlogEngine.Models
 @model ArticleModel
 @{
-//ViewBag.Title = "Home Page";
+    ViewBag.Title = Model.Title + "-" + ViewBag.BlogTitle;
 }
 
 <div class="row">
     <div class="col-md-12">
         <h2>@Model.Title</h2>
+        <span class="badge">@Model.Date</span><span class="badge">@Model.Category</span>
+        <hr />
         <p>
             @Html.Raw(@Model.Content)
         </p>

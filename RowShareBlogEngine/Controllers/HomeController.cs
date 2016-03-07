@@ -25,16 +25,20 @@ namespace RowShareBlogEngine.Controllers
 
             ViewBag.BlogTitle = blog.Title;
             ViewBag.BlogDescription = blog.Description;
+            ViewBag.BlogKeywords = blog.Title;
             return View(blog);
         }
-        public ActionResult Article(Guid id)
+        public ActionResult Article(string id)
         {
             BlogModel blog = new BlogModel();
-            blog.LoadBlog(BlogId, true);
+            blog.LoadBlog(BlogId);
+            ArticleModel article = new ArticleModel();
+            article.LoadArticle(id);
 
             ViewBag.BlogTitle = blog.Title;
             ViewBag.BlogDescription = blog.Description;
-            return View(blog.Articles.First(a => a.Id == id));
+            ViewBag.BlogKeywords = article.Keywords;
+            return View(article);
         }
     }
 }
