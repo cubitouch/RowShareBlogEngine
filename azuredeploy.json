@@ -30,9 +30,9 @@
             ],
             "defaultValue": "0"
         },
-        "someAppSetting": {
+        "RowShareTableId": {
             "type": "string",
-            "defaultValue": "Test App Setting Value"
+            "defaultValue": "Your RowShare table id"
         },
         "repoUrl": {
             "type": "string"
@@ -80,8 +80,8 @@
                     "properties": {
                         "appSettings": [
                             {
-                                "name": "someAppSetting",
-                                "value": "[parameters('someAppSetting')]"
+                                "name": "RowShareTableId",
+                                "value": "[parameters('RowShareTableId')]"
                             }
                         ]
                     }
