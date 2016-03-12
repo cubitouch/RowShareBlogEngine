@@ -1,0 +1,61 @@
+﻿@using RowShare.MapEngine.Models
+@model  MapModel
+@{
+//ViewBag.Title = "Home Page";
+}
+<div id="map-canvas"></div>
+<style type="text/css">
+    html, body {
+        height: 100%;
+    }
+
+    #map-canvas {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<script type="text/javascript">
+
+    function initializeMap() {
+        var mapStyle = [{ "featureType": "landscape", "stylers": [{ "hue": "#FFBB00" }, { "saturation": 43.400000000000006 }, { "lightness": 37.599999999999994 }, { "gamma": 1 }] }, { "featureType": "road.highway", "stylers": [{ "hue": "#FFC200" }, { "saturation": -61.8 }, { "lightness": 45.599999999999994 }, { "gamma": 1 }] }, { "featureType": "road.arterial", "stylers": [{ "hue": "#FF0300" }, { "saturation": -100 }, { "lightness": 51.19999999999999 }, { "gamma": 1 }] }, { "featureType": "road.local", "stylers": [{ "hue": "#FF0300" }, { "saturation": -100 }, { "lightness": 52 }, { "gamma": 1 }] }, { "featureType": "water", "stylers": [{ "hue": "#0078FF" }, { "saturation": -13.200000000000003 }, { "lightness": 2.4000000000000057 }, { "gamma": 1 }] }, { "featureType": "poi", "stylers": [{ "hue": "#00FF6A" }, { "saturation": -1.0989010989011234 }, { "lightness": 11.200000000000017 }, { "gamma": 1 }] }];
+        var locations = [
+            @foreach(PointModel point in Model.Points)
+                    {
+            <text>["@point.Title", @point.Latitude, @point.Longitude]@(point==Model.Points.Last()?"":",")</text>
+            }
+        ];
+
+        var mapOptions = {
+            zoom: 3,
+            styles: mapStyle
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        //create empty LatLngBounds object
+        var bounds = new google.maps.LatLngBounds();
+        var infowindow = new google.maps.InfoWindow();
+
+        for (i = 0; i < locations.length; i++) {
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                map: map
+            });
+
+            //extend the bounds to include each marker's position
+            bounds.extend(marker.position);
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(locations[i][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+
+        //now fit the map to the newly inclusive bounds
+        map.fitBounds(bounds);
+
+    }
+</script>
