@@ -17,10 +17,18 @@ namespace RowShareBlogEngine.Controllers
                 return ConfigurationManager.AppSettings["RowShareTableId"];
             }
         }
+        public ActionResult Error()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             BlogModel blog = new BlogModel();
             blog.LoadBlog(BlogId, true);
+            if (blog.Id == new Guid())
+            {
+                return RedirectToAction("Error");
+            }
 
             ViewBag.BlogId = BlogId;
             ViewBag.BlogTitle = blog.Title;
@@ -32,6 +40,11 @@ namespace RowShareBlogEngine.Controllers
         {
             BlogModel blog = new BlogModel();
             blog.LoadBlog(BlogId);
+            if (blog.Id == Guid.NewGuid())
+            {
+                return RedirectToAction("Error");
+            }
+
             ArticleModel article = new ArticleModel();
             article.LoadArticle(id);
 

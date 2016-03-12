@@ -10,7 +10,7 @@ namespace RowShareBlogEngine.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public List<ArticleModel> Articles { get; set; }
-        
+
         public BlogModel()
         {
             Articles = new List<ArticleModel>();
@@ -20,13 +20,16 @@ namespace RowShareBlogEngine.Models
         {
             Table table = Table.GetTableById(id);
 
-            Id = table.Id;
-            Title = table.DisplayName;
-            Description = table.Description;
-
-            if (withArticles)
+            if (table != null)
             {
-                LoadBlogArticles(id);
+                Id = table.Id;
+                Title = table.DisplayName;
+                Description = table.Description;
+
+                if (withArticles)
+                {
+                    LoadBlogArticles(id);
+                }
             }
         }
         public void LoadBlogArticles(string id)
@@ -39,7 +42,9 @@ namespace RowShareBlogEngine.Models
                 article.Id = row.Id;
                 article.Title = row.Values["Title"];
                 article.Category = row.Values["Category"];
-                article.Date = DateTime.Parse(row.Values["Date"]);
+                DateTime date;
+                DateTime.TryParse(row.Values["Date"], out date);
+                article.Date = date;
                 article.IsPublished = bool.Parse(row.Values["Published"]);
                 article.Keywords = row.Values["Keywords"];
                 article.Content = row.Values["Content"];
