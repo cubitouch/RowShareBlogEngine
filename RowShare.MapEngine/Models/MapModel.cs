@@ -26,10 +26,10 @@ namespace RowShare.MapEngine.Models
                 Title = table.DisplayName;
                 Description = table.Description;
 
-                LoadBlogPoints(id);
+                LoadPoints(id);
             }
         }
-        public void LoadBlogPoints(string id)
+        public void LoadPoints(string id)
         {
             List<Row> rows = Row.GetRowsByTableId(id);
 
