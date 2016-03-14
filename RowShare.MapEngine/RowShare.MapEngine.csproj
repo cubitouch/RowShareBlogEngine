@@ -138,7 +138,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="azuredeploy.json" />
-    <Content Include=".deployment" />
     <None Include="Properties\PublishProfiles\RowShareMapEngineDemo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
