@@ -33,9 +33,6 @@
         "RowShareTableId": {
             "type": "string"
         },
-        "test": {
-            "type": "string"
-        },
         "repoUrl": {
             "type": "string"
         },
@@ -97,7 +94,7 @@
                         "[concat('Microsoft.Web/Sites/', parameters('siteName'), '/config/web')]"
                     ],
                     "properties": {
-                        "RepoUrl": "[parameters('repoUrl')]",
+                        "RepoUrl": "[parameters('repoUrl')]/tree/master/RowShare.MapEngine",
                         "branch": "[parameters('branch')]",
                         "IsManualIntegration": true
                     }
