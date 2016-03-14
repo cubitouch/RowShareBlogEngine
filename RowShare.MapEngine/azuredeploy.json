@@ -81,6 +81,10 @@
                             {
                                 "name": "RowShareTableId",
                                 "value": "[parameters('RowShareTableId')]"
+                            },
+                            {
+                                "name": "Project",
+                                "value": "RowShare.MapEngine/RowShare.MapEngine.csproj"
                             }
                         ]
                     }
