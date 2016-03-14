@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using RowShare.API;
 
-namespace RowShareBlogEngine.Models
+namespace RowShare.BlogEngine.Models
 {
     public class ArticleModel
     {

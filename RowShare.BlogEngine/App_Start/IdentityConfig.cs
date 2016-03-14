@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 
-namespace RowShareBlogEngine
+namespace RowShare.BlogEngine
 {
     public class EmailService : IIdentityMessageService
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(RowShareBlogEngine.Startup))]
-namespace RowShareBlogEngine
+[assembly: OwinStartupAttribute(typeof(RowShare.BlogEngine.Startup))]
+namespace RowShare.BlogEngine
 {
     public partial class Startup
     {

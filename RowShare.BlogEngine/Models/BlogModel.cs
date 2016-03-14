@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using RowShare.API;
 
-namespace RowShareBlogEngine.Models
+namespace RowShare.BlogEngine.Models
 {
     public class BlogModel
     {

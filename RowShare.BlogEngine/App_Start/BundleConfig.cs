@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace RowShareBlogEngine
+namespace RowShare.BlogEngine
 {
     public class BundleConfig
     {

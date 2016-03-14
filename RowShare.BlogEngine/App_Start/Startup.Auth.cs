@@ -6,7 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 
-namespace RowShareBlogEngine
+namespace RowShare.BlogEngine
 {
     public partial class Startup
     {

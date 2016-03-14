@@ -1,4 +1,4 @@
-﻿using RowShareBlogEngine.Models;
+﻿using RowShare.BlogEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace RowShareBlogEngine.Controllers
+namespace RowShare.BlogEngine.Controllers
 {
     public class HomeController : Controller
     {
