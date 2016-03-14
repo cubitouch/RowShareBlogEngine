@@ -94,7 +94,7 @@
                         "[concat('Microsoft.Web/Sites/', parameters('siteName'), '/config/web')]"
                     ],
                     "properties": {
-                        "RepoUrl": "[parameters('repoUrl')]/tree/master/RowShare.MapEngine",
+                        "RepoUrl": "[parameters('repoUrl')]",
                         "branch": "[parameters('branch')]",
                         "IsManualIntegration": true
                     }
