@@ -33,6 +33,9 @@
         "RowShareTableId": {
             "type": "string"
         },
+        "test": {
+            "type": "string"
+        },
         "repoUrl": {
             "type": "string"
         },
