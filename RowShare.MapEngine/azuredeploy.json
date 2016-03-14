@@ -82,14 +82,6 @@
                                 "name": "RowShareTableId",
                                 "value": "[parameters('RowShareTableId')]"
                             }
-                        ],
-                        "virtualApplications": [
-                            {
-                                "virtualPath": "/",
-                                "physicalPath": "site\\wwwroot\\RowShare.MapEngine",
-                                "preloadEnabled": true,
-                                "virtualDirectories": null
-                            }
                         ]
                     }
                 },
