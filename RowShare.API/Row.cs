@@ -9,7 +9,7 @@ namespace RowShare.API
     {
         public Guid Id { get; set; }
         public string ListId { get; set; }
-        public Dictionary<string, string> Values { get; set; }
+        public Dictionary<string, object> Values { get; set; }
 
         public static List<Row> GetRowsByTableId(string id)
         {

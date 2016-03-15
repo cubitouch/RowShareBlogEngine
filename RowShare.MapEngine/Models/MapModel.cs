@@ -38,9 +38,9 @@ namespace RowShare.MapEngine.Models
                 PointModel point = new PointModel();
 
                 point.Id = row.Id;
-                point.Title = row.Values["Title"];
-                point.Latitude = decimal.Parse(row.Values["Latitude"]);
-                point.Longitude = decimal.Parse(row.Values["Longitude"]);
+                point.Title = row.Values["Title"].ToString();
+                point.Latitude = decimal.Parse(row.Values["Latitude"].ToString());
+                point.Longitude = decimal.Parse(row.Values["Longitude"].ToString());
 
                 Points.Add(point);
             }

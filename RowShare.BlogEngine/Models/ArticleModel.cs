@@ -26,14 +26,14 @@ namespace RowShare.BlogEngine.Models
         public void Init(Row row)
         {
             Id = row.Id;
-            Title = row.Values["Title"];
-            Category = row.Values["Category"];
+            Title = row.Values["Title"].ToString();
+            Category = row.Values["Category"].ToString();
             DateTime date;
-            DateTime.TryParse(row.Values["Date"], out date);
+            DateTime.TryParse(row.Values["Date"].ToString(), out date);
             Date = date;
-            IsPublished = bool.Parse(row.Values["Published"]);
-            Keywords = row.Values["Keywords"];
-            Content = row.Values["Content"];
+            IsPublished = bool.Parse(row.Values["Published"].ToString());
+            Keywords = row.Values["Keywords"].ToString();
+            Content = row.Values["Content"].ToString();
         }
         public void LoadArticle(string id)
         {
