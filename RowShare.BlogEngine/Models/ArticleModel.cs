@@ -23,17 +23,22 @@ namespace RowShare.BlogEngine.Models
             }
         }
 
-        public void LoadArticle(string id)
+        public void Init(Row row)
         {
-            Row row = Row.GetRowById(id);
-            
             Id = row.Id;
             Title = row.Values["Title"];
             Category = row.Values["Category"];
-            Date = DateTime.Parse(row.Values["Date"]);
+            DateTime date;
+            DateTime.TryParse(row.Values["Date"], out date);
+            Date = date;
             IsPublished = bool.Parse(row.Values["Published"]);
             Keywords = row.Values["Keywords"];
             Content = row.Values["Content"];
+        }
+        public void LoadArticle(string id)
+        {
+            Row row = Row.GetRowById(id);
+            Init(row);
         }
     }
 }

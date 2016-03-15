@@ -39,16 +39,7 @@ namespace RowShare.BlogEngine.Models
             foreach (Row row in rows)
             {
                 ArticleModel article = new ArticleModel();
-                article.Id = row.Id;
-                article.Title = row.Values["Title"];
-                article.Category = row.Values["Category"];
-                DateTime date;
-                DateTime.TryParse(row.Values["Date"], out date);
-                article.Date = date;
-                article.IsPublished = bool.Parse(row.Values["Published"]);
-                article.Keywords = row.Values["Keywords"];
-                article.Content = row.Values["Content"];
-
+                article.Init(row);
                 Articles.Add(article);
             }
         }
