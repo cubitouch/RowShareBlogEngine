@@ -4,6 +4,8 @@
 
 <script>
     var _currentData = {};
+    var myLineChart;
+
     $(function () {
         $('#rowshareTableLoad').click(function () {
             $.get("/Home/LoadGraphData?id=" + $('#rowshareTableId').val(), function (data) {
@@ -56,7 +58,10 @@
                 ]
             };
 
-            var myLineChart = new Chart(ctx).Line(data);
+            if (myLineChart != undefined) {
+                myLineChart.destroy();
+            }
+            myLineChart = new Chart(ctx).Line(data);
         });
     });
 </script>
