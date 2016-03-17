@@ -60,6 +60,7 @@ namespace RowShare.CMSEngine
 
             // replace system moustaches
             Template = Template.Replace("{{CMSEngine.Title}}", table.DisplayName);
+            Template = Template.Replace("{{CMSEngine.RSContentId}}", ContentId);
 
             List<Row> contents = Row.GetRowsByTableId(ContentId);
             foreach (Row content in contents)

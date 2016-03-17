@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<script>
+    var _currentData = {};
+    $(function () {
+        $('#rowshareTableLoad').click(function () {
+            $.get("/Home/LoadGraphData?id=" + $('#rowshareTableId').val(), function (data) {
+                _currentData = data;
+                console.log(data);
+
+                $('#xAxis').empty();
+                $('#yAxis').empty();
+
+                if (data.Rows.length > 0) {
+                    var keys = Object.keys(data.Rows[0].Values);
+                    for (var i = 0; i < keys.length; i++) {
+                        $('#xAxis').append('<option value="' + keys[i] + '">' + keys[i] + '</option>');
+                        $('#yAxis').append('<option value="' + keys[i] + '">' + keys[i] + '</option>');
+                    }
+                }
+            });
+        });
+        $('#generateGraphic').click(function () {
+            var ctx = document.getElementById("myChart").getContext("2d");
+
+            var xAxis = $('#xAxis').val();
+            var yAxis = $('#yAxis').val();
+
+            var labels = [];
+            var datasets = [];
+
+            for (var i = 0; i < _currentData.Rows.length; i++) {
+                labels.push(_currentData.Rows[i].Values[yAxis]);
+            }
+
+            var dataset = {
+                label: _currentData.DisplayName,
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: []
+            }
+            for (var i = 0; i < _currentData.Rows.length; i++) {
+                dataset.data.push(_currentData.Rows[i].Values[xAxis]);
+            }
+
+            var data = {
+                labels: labels,
+                datasets: [
+                    dataset
+                ]
+            };
+
+            var myLineChart = new Chart(ctx).Line(data);
+        });
+    });
+</script>
+<br />
+<div class="form-horizontal">
+    <div class="form-group">
+        <label for="rowshareTableId" class="col-sm-4 control-label">RowShare Table Id</label>
+        <div class="col-sm-8">
+            <div class="input-group">
+                <div class="input-group-addon">https://www.rowshare.com/t/</div>
+                <input type="text" class="form-control" id="rowshareTableId" placeholder="the id of your RowShare table">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <button id="rowshareTableLoad" class="btn btn-success">Load table data</button>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="form-horizontal">
+    <div class="form-group">
+        <label for="xAxis" class="col-sm-4 control-label">X axis</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="xAxis"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="yAxis" class="col-sm-4 control-label">Y axis</label>
+        <div class="col-sm-8">
+            <select class="form-control" id="yAxis"></select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-4">
+            <button class="btn btn-primary" id="generateGraphic">Generate</button>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="text-center">
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>

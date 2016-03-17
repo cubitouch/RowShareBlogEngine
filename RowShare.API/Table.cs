@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using CodeFluent.Runtime.Utilities;
 
@@ -9,6 +10,7 @@ namespace RowShare.API
         public Guid Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
+        public List<Row> Rows;
 
         public static Table GetTableById(string id)
         {
@@ -16,6 +18,11 @@ namespace RowShare.API
             WebClient client = new WebClient();
             string json = client.DownloadString(url);
             return JsonUtilities.Deserialize<Table>(json);
+        }
+
+        public void LoadRows()
+        {
+            Rows = Row.GetRowsByTableId(Id.ToString().Replace("-", ""));
         }
     }
 }
