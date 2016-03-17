@@ -10,6 +10,7 @@ namespace RowShare.API
         public Guid Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
+        //public List<Column> Columns;
         public List<Row> Rows;
 
         public static Table GetTableById(string id)
@@ -24,5 +25,9 @@ namespace RowShare.API
         {
             Rows = Row.GetRowsByTableId(Id.ToString().Replace("-", ""));
         }
+        //public void LoadColumns()
+        //{
+        //    Columns = Column.GetColumnsByTableId(Id.ToString().Replace("-", ""));
+        //}
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using RowShare.API;
 
 namespace RowShare.CMSEngine
@@ -75,7 +76,7 @@ namespace RowShare.CMSEngine
 
         private string GetResourceLink(Row row)
         {
-            File file = new File((Dictionary<string, object>)row.Values["File"]);
+            File file = new File((JObject)row.Values["File"]);
             return string.Format("https://www.rowshare.com/blob/{0}1/4/{1}", row.Id.ToString().Replace("-", ""), file.FileName);
         }
     }
@@ -91,10 +92,10 @@ namespace RowShare.CMSEngine
         public string ContentType { get; set; }
         public string FileName { get; set; }
 
-        public File(Dictionary<string, object> file)
+        public File(JObject file)
         {
-            ContentType = file["ContentType"].ToString();
-            FileName = file["FileName"].ToString();
+            ContentType = file.GetValue("ContentType").ToString();
+            FileName = file.GetValue("FileName").ToString();
         }
     }
 }

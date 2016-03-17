@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Newtonsoft.Json;
 using RowShare.API;
 
 namespace RowShare.GraphEngine.Controllers
@@ -15,12 +12,20 @@ namespace RowShare.GraphEngine.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadGraphData(string id)
+        public ContentResult LoadGraphData(string id)
         {
             Table table = Table.GetTableById(id);
+            //table.LoadColumns();
             table.LoadRows();
 
-            return Json(table,JsonRequestBehavior.AllowGet);
+            var list = JsonConvert.SerializeObject(table,
+                Formatting.None,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+
+            return Content(list, "application/json");
         }
     }
 }

@@ -10,7 +10,7 @@
         $('#rowshareTableLoad').click(function () {
             $.get("/Home/LoadGraphData?id=" + $('#rowshareTableId').val(), function (data) {
                 _currentData = data;
-                console.log(data);
+                //console.log(data);
 
                 $('#xAxis').empty();
                 $('#yAxis').empty();
