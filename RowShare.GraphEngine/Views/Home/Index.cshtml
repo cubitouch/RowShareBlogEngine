@@ -34,7 +34,7 @@
             var datasets = [];
 
             for (var i = 0; i < _currentData.Rows.length; i++) {
-                labels.push(_currentData.Rows[i].Values[yAxis]);
+                labels.push(_currentData.Rows[i].Values[xAxis]);
             }
 
             var dataset = {
@@ -48,7 +48,7 @@
                 data: []
             }
             for (var i = 0; i < _currentData.Rows.length; i++) {
-                dataset.data.push(_currentData.Rows[i].Values[xAxis]);
+                dataset.data.push(_currentData.Rows[i].Values[yAxis]);
             }
 
             var data = {
