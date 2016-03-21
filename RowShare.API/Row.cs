@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using CodeFluent.Runtime.Utilities;
-using Newtonsoft.Json;
 
 namespace RowShare.API
 {
@@ -45,19 +44,14 @@ namespace RowShare.API
             string url = string.Format("https://www.rowshare.com/api/row/loadForParent/{0}", id);
             WebClient client = new WebClient();
             string json = client.DownloadString(url);
-
-            // use of JsonConvert (Newtonsoft) instead on JsonUtilities (CodeFluent.Runtime) due to TOO SMART conversions... !
-            return JsonConvert.DeserializeObject<List<Row>>(json);
-            //return JsonUtilities.Deserialize<List<Row>>(json);
+            return JsonUtilities.Deserialize<List<Row>>(json, Utility.GetDefaultOptions());
         }
         public static Row GetRowById(string id)
         {
             string url = string.Format("https://www.rowshare.com/api/row/load/{0}", id);
             WebClient client = new WebClient();
             string json = client.DownloadString(url);
-            // use of JsonConvert (Newtonsoft) instead on JsonUtilities (CodeFluent.Runtime) due to TOO SMART conversions... !
-            return JsonConvert.DeserializeObject<Row>(json);
-            //return JsonUtilities.Deserialize<Row>(json);
+            return JsonUtilities.Deserialize<Row>(json, Utility.GetDefaultOptions());
         }
     }
 }

@@ -76,7 +76,7 @@ namespace RowShare.CMSEngine
 
         private string GetResourceLink(Row row)
         {
-            File file = new File((JObject)row.Values["File"]);
+            File file = new File((IDictionary<string, object>)row.Values["File"]);
             return string.Format("https://www.rowshare.com/blob/{0}1/4/{1}", row.Id.ToString().Replace("-", ""), file.FileName);
         }
     }
@@ -92,10 +92,10 @@ namespace RowShare.CMSEngine
         public string ContentType { get; set; }
         public string FileName { get; set; }
 
-        public File(JObject file)
+        public File(IDictionary<string, object> file)
         {
-            ContentType = file.GetValue("ContentType").ToString();
-            FileName = file.GetValue("FileName").ToString();
+            ContentType = file["ContentType"].ToString();
+            FileName = file["FileName"].ToString();
         }
     }
 }

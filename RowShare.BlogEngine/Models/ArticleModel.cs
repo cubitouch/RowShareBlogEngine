@@ -28,10 +28,12 @@ namespace RowShare.BlogEngine.Models
             Id = row.Id;
             Title = row.Values["Title"].ToString();
             Category = row.Values["Category"].ToString();
-            DateTime date = new DateTime();
-            if (row.Values["Date"] != null)
-                DateTime.TryParse(row.Values["Date"].ToString(), out date);
-            Date = date;
+            Date = (DateTime)row.Values.GetValue("Date", typeof(DateTime), new DateTime());
+            //DateTime date = new DateTime();
+            //if (row.Values["Date"] != null)
+            //    DateTime.TryParse(row.Values["Date"].ToString(), out date);
+            //Date = date;
+            
             IsPublished = bool.Parse(row.Values["Published"].ToString());
             Keywords = row.Values["Keywords"].ToString();
             Content = row.Values["Content"].ToString();
