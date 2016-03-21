@@ -15,7 +15,7 @@ namespace RowShare.GraphEngine.Controllers
         public ContentResult LoadGraphData(string id)
         {
             Table table = Table.GetTableById(id);
-            //table.LoadColumns();
+            table.LoadColumns();
             table.LoadRows();
 
             var list = JsonConvert.SerializeObject(table,

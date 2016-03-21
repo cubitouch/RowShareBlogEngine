@@ -11,7 +11,8 @@ namespace RowShare.API
         public string ListId { get; set; }
         public Dictionary<string, object> Values { get; set; }
 
-        //public Table Parent;
+        [JsonUtilities(IgnoreWhenSerializing = true)]
+        public Table Parent;
         //public Dictionary<string, object> ValuesObject
         //{
         //    get
@@ -33,12 +34,12 @@ namespace RowShare.API
         //    }
         //}
 
-        //public static List<Row> GetRowsByTable(Table table)
-        //{
-        //    List<Row> rows = GetRowsByTableId(table.Id.ToString().Replace("-", ""));
-        //    //rows.ForEach(r => r.Parent = table);
-        //    return rows;
-        //}
+        public static List<Row> GetRowsByTable(Table table)
+        {
+            List<Row> rows = GetRowsByTableId(table.Id.ToString().Replace("-", ""));
+            rows.ForEach(r => r.Parent = table);
+            return rows;
+        }
         public static List<Row> GetRowsByTableId(string id)
         {
             string url = string.Format("https://www.rowshare.com/api/row/loadForParent/{0}", id);

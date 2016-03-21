@@ -10,7 +10,7 @@ namespace RowShare.API
         public Guid Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
-        //public List<Column> Columns;
+        public List<Column> Columns;
         public List<Row> Rows;
 
         public static Table GetTableById(string id)
@@ -23,11 +23,11 @@ namespace RowShare.API
 
         public void LoadRows()
         {
-            Rows = Row.GetRowsByTableId(Id.ToString().Replace("-", ""));
+            Rows = Row.GetRowsByTable(this);
         }
-        //public void LoadColumns()
-        //{
-        //    Columns = Column.GetColumnsByTableId(Id.ToString().Replace("-", ""));
-        //}
+        public void LoadColumns()
+        {
+            Columns = Column.GetColumnsByTable(this);
+        }
     }
 }
