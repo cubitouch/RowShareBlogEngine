@@ -18,20 +18,20 @@ namespace RowShare.MapEngine.Models
 
         public void LoadMap(string id)
         {
-            Table table = Table.GetTableById(id);
+            List list = List.GetListById(id);
 
-            if (table != null)
+            if (list != null)
             {
-                Id = table.Id;
-                Title = table.DisplayName;
-                Description = table.Description;
+                Id = list.Id;
+                Title = list.DisplayName;
+                Description = list.Description;
 
                 LoadPoints(id);
             }
         }
         public void LoadPoints(string id)
         {
-            List<Row> rows = Row.GetRowsByTableId(id);
+            List<Row> rows = Row.GetRowsByListId(id);
 
             foreach (Row row in rows)
             {

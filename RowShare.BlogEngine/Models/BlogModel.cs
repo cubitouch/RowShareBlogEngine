@@ -18,13 +18,13 @@ namespace RowShare.BlogEngine.Models
 
         public void LoadBlog(string id, bool withArticles = false)
         {
-            Table table = Table.GetTableById(id);
+            List list = List.GetListById(id);
 
-            if (table != null)
+            if (list != null)
             {
-                Id = table.Id;
-                Title = table.DisplayName;
-                Description = table.Description;
+                Id = list.Id;
+                Title = list.DisplayName;
+                Description = list.Description;
 
                 if (withArticles)
                 {
@@ -34,7 +34,7 @@ namespace RowShare.BlogEngine.Models
         }
         public void LoadBlogArticles(string id)
         {
-            List<Row> rows = Row.GetRowsByTableId(id);
+            List<Row> rows = Row.GetRowsByListId(id);
 
             foreach (Row row in rows)
             {

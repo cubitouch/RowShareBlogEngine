@@ -14,18 +14,18 @@ namespace RowShare.GraphEngine.Controllers
         [HttpGet]
         public ContentResult LoadGraphData(string id)
         {
-            Table table = Table.GetTableById(id);
-            table.LoadColumns();
-            table.LoadRows();
+            List list = List.GetListById(id);
+            list.LoadColumns();
+            list.LoadRows();
 
-            var list = JsonConvert.SerializeObject(table,
+            var result = JsonConvert.SerializeObject(list,
                 Formatting.None,
                 new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 });
 
-            return Content(list, "application/json");
+            return Content(result, "application/json");
         }
     }
 }

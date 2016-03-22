@@ -14,7 +14,7 @@ namespace RowShare.BlogEngine.Controllers
         {
             get
             {
-                return ConfigurationManager.AppSettings["RowShareTableId"];
+                return ConfigurationManager.AppSettings["RowShareListId"];
             }
         }
         public ActionResult Error()

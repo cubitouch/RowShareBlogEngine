@@ -25,8 +25,8 @@ namespace RowShare.CMSEngine
 
             Resources = new List<Resource>();
 
-            Table table = Table.GetTableById(ContentId);
-            List<Row> rows = Row.GetRowsByTableId(ResourceId);
+            List list = List.GetListById(ContentId);
+            List<Row> rows = Row.GetRowsByListId(ResourceId);
 
             // init template
             foreach (Row row in rows)
@@ -34,7 +34,7 @@ namespace RowShare.CMSEngine
                 if (row.Values["Slug"].ToString() == "index.html")
                 {
                     WebClient client = new WebClient();
-                    Template = client.DownloadString(GetResourceLink(row));
+                    Template = client.DownloadString(Resource.GetResourceLink(row));
                 }
             }
 
@@ -46,7 +46,7 @@ namespace RowShare.CMSEngine
                     Resource resource = new Resource();
 
                     resource.Slug = row.Values["Slug"].ToString();
-                    resource.FileUrl = GetResourceLink(row);
+                    resource.FileUrl = Resource.GetResourceLink(row);
 
                     Resources.Add(resource);
                 }
@@ -60,10 +60,10 @@ namespace RowShare.CMSEngine
             }
 
             // replace system moustaches
-            Template = Template.Replace("{{CMSEngine.Title}}", table.DisplayName);
+            Template = Template.Replace("{{CMSEngine.Title}}", list.DisplayName);
             Template = Template.Replace("{{CMSEngine.RSContentId}}", ContentId);
 
-            List<Row> contents = Row.GetRowsByTableId(ContentId);
+            List<Row> contents = Row.GetRowsByListId(ContentId);
             foreach (Row content in contents)
             {
                 if (content.Values["Slug"].ToString() == slug + "")
@@ -71,31 +71,6 @@ namespace RowShare.CMSEngine
                     Template = Template.Replace("{{CMSEngine.Content}}", content.Values["Content"].ToString());
                 }
             }
-        }
-
-
-        private string GetResourceLink(Row row)
-        {
-            File file = new File((IDictionary<string, object>)row.Values["File"]);
-            return string.Format("https://www.rowshare.com/blob/{0}1/4/{1}", row.Id.ToString().Replace("-", ""), file.FileName);
-        }
-    }
-
-    public class Resource
-    {
-        public string FileUrl { get; set; }
-        public string Slug { get; set; }
-
-    }
-    public class File
-    {
-        public string ContentType { get; set; }
-        public string FileName { get; set; }
-
-        public File(IDictionary<string, object> file)
-        {
-            ContentType = file["ContentType"].ToString();
-            FileName = file["FileName"].ToString();
         }
     }
 }

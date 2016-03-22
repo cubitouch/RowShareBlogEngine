@@ -12,15 +12,15 @@ namespace RowShare.API
         public string DisplayName { get; set; }
 
         [JsonUtilities(IgnoreWhenSerializing = true)]
-        public Table Parent;
+        public List Parent;
 
-        public static List<Column> GetColumnsByTable(Table table)
+        public static List<Column> GetColumnsByList(List list)
         {
-            List<Column> columns = GetColumnsByTableId(table.Id.ToString().Replace("-", ""));
-            columns.ForEach(r => r.Parent = table);
+            List<Column> columns = GetColumnsByListId(list.Id.ToString().Replace("-", ""));
+            columns.ForEach(r => r.Parent = list);
             return columns;
         }
-        public static List<Column> GetColumnsByTableId(string id)
+        public static List<Column> GetColumnsByListId(string id)
         {
             string url = string.Format("https://www.rowshare.com/api/column/loadForParent/{0}", id);
             WebClient client = new WebClient();

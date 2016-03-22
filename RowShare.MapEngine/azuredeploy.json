@@ -30,7 +30,7 @@
             ],
             "defaultValue": "0"
         },
-        "RowShareTableId": {
+        "RowShareListId": {
             "type": "string"
         },
         "repoUrl": {
@@ -79,8 +79,8 @@
                     "properties": {
                         "appSettings": [
                             {
-                                "name": "RowShareTableId",
-                                "value": "[parameters('RowShareTableId')]"
+                                "name": "RowShareListId",
+                                "value": "[parameters('RowShareListId')]"
                             },
                             {
                                 "name": "Project",
