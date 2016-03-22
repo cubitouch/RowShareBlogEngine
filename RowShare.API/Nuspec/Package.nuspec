@@ -2,13 +2,16 @@
 <package >
   <metadata>
     <id>RowShare.API</id>
-    <version>1.0.0</version>
+    <version>1.0.0.2</version>
     <authors>Hugo CARNICELLI</authors>
     <owners>Hugo CARNICELLI</owners>
     <projectUrl>https://github.com/cubitouch/RowShareWebEngine/tree/master/RowShare.API</projectUrl>
     <iconUrl>C:\Users\HCA\Documents\GitHub\RowShareWebEngine\RowShare.API\Nuspec\logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>RowShareAPI helps you get data from RowShare using the REST API.</description>
+    <dependencies>
+      <dependency id="CodeFluentRuntimeClient" version="1.0.0.838" />
+    </dependencies>
   </metadata>
   <files>
     <file src="..\Bin\Debug\RowShare.API.dll" target="lib" />
