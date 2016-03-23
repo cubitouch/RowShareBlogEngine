@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Net;
 using CodeFluent.Runtime.Utilities;
 
-namespace RowShare.API
+namespace RowShare.Api
 {
     public class Column
     {
@@ -11,21 +12,38 @@ namespace RowShare.API
         public Guid ListId { get; set; }
         public string DisplayName { get; set; }
 
+        private List _parent;
         [JsonUtilities(IgnoreWhenSerializing = true)]
-        public List Parent;
-
-        public static List<Column> GetColumnsByList(List list)
+        public List Parent
         {
-            List<Column> columns = GetColumnsByListId(list.Id.ToString().Replace("-", ""));
-            columns.ForEach(r => r.Parent = list);
+            get
+            {
+                return _parent;
+            }
+        }
+
+        public static Collection<Column> GetColumnsByList(List list)
+        {
+            if (list == null)
+                return null;
+
+            Collection<Column> columns = GetColumnsByListId(list.Id.ToString().Replace("-", ""));
+            foreach (Column column in columns)
+            {
+                column._parent = list;
+
+            }
             return columns;
         }
-        public static List<Column> GetColumnsByListId(string id)
+        public static Collection<Column> GetColumnsByListId(string id)
         {
-            string url = string.Format("https://www.rowshare.com/api/column/loadForParent/{0}", id);
-            WebClient client = new WebClient();
-            string json = client.DownloadString(url);
-            return JsonUtilities.Deserialize<List<Column>>(json);
+            string url = string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/api/column/loadForParent/{0}", id);
+            string json;
+            using (WebClient client = new WebClient())
+            {
+                json = client.DownloadString(url);
+            }
+            return JsonUtilities.Deserialize<Collection<Column>>(json);
         }
     }
 }

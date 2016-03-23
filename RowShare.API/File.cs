@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace RowShare.API
+namespace RowShare.Api
 {
     public class File
     {
@@ -13,6 +9,9 @@ namespace RowShare.API
 
         public File(IDictionary<string, object> file)
         {
+            if (file == null)
+                return;
+
             ContentType = file["ContentType"].ToString();
             FileName = file["FileName"].ToString();
         }

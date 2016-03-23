@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using RowShare.API;
+using RowShare.Api;
 
 namespace RowShare.BlogEngine.Models
 {

@@ -5,7 +5,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using RowShare.API;
+using RowShare.Api;
+using System.Collections.ObjectModel;
 
 namespace RowShare.CMSEngine
 {
@@ -26,7 +27,7 @@ namespace RowShare.CMSEngine
             Resources = new List<Resource>();
 
             List list = List.GetListById(ContentId);
-            List<Row> rows = Row.GetRowsByListId(ResourceId);
+            Collection<Row> rows = Row.GetRowsByListId(ResourceId);
 
             // init template
             foreach (Row row in rows)
@@ -46,24 +47,23 @@ namespace RowShare.CMSEngine
                     Resource resource = new Resource();
 
                     resource.Slug = row.Values["Slug"].ToString();
-                    resource.FileUrl = Resource.GetResourceLink(row);
+                    resource.FileUrl = new Uri(Resource.GetResourceLink(row));
 
                     Resources.Add(resource);
                 }
             }
-
-
+            
             // replace template resources moustaches
             foreach (Resource resource in Resources)
             {
-                Template = Template.Replace(string.Format("{{{{resource/{0}}}}}", resource.Slug), resource.FileUrl);
+                Template = Template.Replace(string.Format("{{{{resource/{0}}}}}", resource.Slug), resource.FileUrl.ToString());
             }
 
             // replace system moustaches
             Template = Template.Replace("{{CMSEngine.Title}}", list.DisplayName);
             Template = Template.Replace("{{CMSEngine.RSContentId}}", ContentId);
 
-            List<Row> contents = Row.GetRowsByListId(ContentId);
+            Collection<Row> contents = Row.GetRowsByListId(ContentId);
             foreach (Row content in contents)
             {
                 if (content.Values["Slug"].ToString() == slug + "")

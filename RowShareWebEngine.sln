@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.MapEngine", "RowSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.BlogEngine", "RowShare.BlogEngine\RowShare.BlogEngine.csproj", "{AD7ACCB2-1C2B-4236-94AA-477A22C91E3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.API", "RowShare.API\RowShare.API.csproj", "{C4896CCA-82C7-4D75-A02C-9021E4F863F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.Api", "RowShare.API\RowShare.Api.csproj", "{C4896CCA-82C7-4D75-A02C-9021E4F863F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.CMSEngine", "RowShare.CMSEngine\RowShare.CMSEngine.csproj", "{3EC9C889-5BC7-419C-969E-779FB5493B1F}"
 EndProject

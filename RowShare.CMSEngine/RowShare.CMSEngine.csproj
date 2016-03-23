@@ -154,9 +154,9 @@
     <None Include="Properties\PublishProfiles\RowShareCMSEngineDemo.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RowShare.API\RowShare.API.csproj">
+    <ProjectReference Include="..\RowShare.API\RowShare.Api.csproj">
       <Project>{c4896cca-82c7-4d75-a02c-9021e4f863f3}</Project>
-      <Name>RowShare.API</Name>
+      <Name>RowShare.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

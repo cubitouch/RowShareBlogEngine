@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using RowShare.API;
+using RowShare.Api;
+using System.Collections.ObjectModel;
 
 namespace RowShare.MapEngine.Models
 {
@@ -31,7 +32,7 @@ namespace RowShare.MapEngine.Models
         }
         public void LoadPoints(string id)
         {
-            List<Row> rows = Row.GetRowsByListId(id);
+            Collection<Row> rows = Row.GetRowsByListId(id);
 
             foreach (Row row in rows)
             {

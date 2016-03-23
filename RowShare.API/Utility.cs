@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using CodeFluent.Runtime.Utilities;
 
-namespace RowShare.API
+namespace RowShare.Api
 {
     public static class Utility
     {
@@ -11,7 +12,7 @@ namespace RowShare.API
             if (key == null)
                 throw new ArgumentNullException("key");
 
-            object def = ConvertUtilities.ChangeType(defaultValue, type);
+            object def = ConvertUtilities.ChangeType(defaultValue, type, CultureInfo.CurrentCulture);
             if (dictionary == null)
                 return def;
 
@@ -22,14 +23,17 @@ namespace RowShare.API
             {
                 return JsonUtilities.TryParseDateTime(o.ToString());
             }
-            return ConvertUtilities.ChangeType(o, type, def);
+            return ConvertUtilities.ChangeType(o, type, def, CultureInfo.CurrentCulture);
         }
 
-        public static JsonUtilitiesOptions GetDefaultOptions()
+        public static JsonUtilitiesOptions DefaultOptions
         {
-            JsonUtilitiesOptions options = new JsonUtilitiesOptions();
-            options.SerializationOptions &= ~JsonSerializationOptions.AutoParseDateTime;
-            return options;
+            get
+            {
+                JsonUtilitiesOptions options = new JsonUtilitiesOptions();
+                options.SerializationOptions &= ~JsonSerializationOptions.AutoParseDateTime;
+                return options;
+            }
         }
     }
 }

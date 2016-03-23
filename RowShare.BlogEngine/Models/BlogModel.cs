@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using RowShare.API;
+using RowShare.Api;
+using System.Collections.ObjectModel;
 
 namespace RowShare.BlogEngine.Models
 {
@@ -34,7 +35,7 @@ namespace RowShare.BlogEngine.Models
         }
         public void LoadBlogArticles(string id)
         {
-            List<Row> rows = Row.GetRowsByListId(id);
+            Collection<Row> rows = Row.GetRowsByListId(id);
 
             foreach (Row row in rows)
             {
