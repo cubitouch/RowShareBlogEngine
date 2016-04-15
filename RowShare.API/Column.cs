@@ -29,7 +29,7 @@ namespace RowShare.Api
 
         public static Collection<Column> GetColumnsByListId(string id)
         {
-            string url = string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/api/column/loadForParent/{0}", id);
+            string url = string.Format(CultureInfo.CurrentCulture, "/column/loadForParent/{0}", id);
             string json = RowShareCommunication.GetData(url); 
 
             return JsonUtilities.Deserialize<Collection<Column>>(json);
