@@ -64,22 +64,15 @@ namespace RowShare.Api
         public static Collection<Row> GetRowsByListId(string id)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/api/row/loadForParent/{0}", id);
-            string json;
-            using (WebClient client = new WebClient())
-            {
-                json = client.DownloadString(url);
-            }
+            string json = RowShareCommunication.GetData(url);
             return JsonUtilities.Deserialize<Collection<Row>>(json, Utility.DefaultOptions);
 
         }
         public static Row GetRowById(string id)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/api/row/load/{0}", id);
-            string json;
-            using (WebClient client = new WebClient())
-            {
-                json = client.DownloadString(url);
-            }
+            string json = RowShareCommunication.GetData(url);
+
             return JsonUtilities.Deserialize<Row>(json, Utility.DefaultOptions);
         }
     }

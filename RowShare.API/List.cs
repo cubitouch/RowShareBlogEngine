@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Net;
 using CodeFluent.Runtime.Utilities;
+using System.Configuration;
 
 namespace RowShare.Api
 {
@@ -28,14 +29,13 @@ namespace RowShare.Api
             }
         }
 
+
+
         public static List GetListById(string id)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/api/list/load/{0}", id);
-            string json;
-            using (WebClient client = new WebClient())
-            {
-                json = client.DownloadString(url);
-            }
+            string json = RowShareCommunication.GetData(url);
+
             return JsonUtilities.Deserialize<List>(json);
         }
 
@@ -47,5 +47,6 @@ namespace RowShare.Api
         {
             _columns = Column.GetColumnsByList(this);
         }
+        
     }
 }
