@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Net;
 using CodeFluent.Runtime.Utilities;
 
 namespace RowShare.Api
@@ -13,15 +12,8 @@ namespace RowShare.Api
         public string ListId { get; set; }
         public Dictionary<string, object> Values { get; private set; }
 
-        private List _parent;
         [JsonUtilities(IgnoreWhenSerializing = true)]
-        public List Parent
-        {
-            get
-            {
-                return _parent;
-            }
-        }
+        public List Parent { get; private set; }
 
         //public Dictionary<string, object> ValuesObject
         //{
@@ -57,20 +49,20 @@ namespace RowShare.Api
             Collection<Row> rows = GetRowsByListId(list.Id.ToString().Replace("-", ""));
             foreach (Row row in rows)
             {
-                row._parent = list;
+                row.Parent = list;
             }
             return rows;
         }
         public static Collection<Row> GetRowsByListId(string id)
         {
-            string url = string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/api/row/loadForParent/{0}", id);
+            string url = string.Format(CultureInfo.CurrentCulture, "row/loadForParent/{0}", id);
             string json = RowShareCommunication.GetData(url);
             return JsonUtilities.Deserialize<Collection<Row>>(json, Utility.DefaultOptions);
 
         }
         public static Row GetRowById(string id)
         {
-            string url = string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/api/row/load/{0}", id);
+            string url = string.Format(CultureInfo.CurrentCulture, "/row/load/{0}", id);
             string json = RowShareCommunication.GetData(url);
 
             return JsonUtilities.Deserialize<Row>(json, Utility.DefaultOptions);

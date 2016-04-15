@@ -1,18 +1,17 @@
-﻿using CodeFluent.Runtime.Utilities;
-using System;
+﻿using System;
 using System.Configuration;
+using System.Globalization;
 using System.Net;
 
 namespace RowShare.Api
 {
     public class RowShareCommunication
     {
-
-        [JsonUtilities(IgnoreWhenSerializing = true)]
         protected static string Cookie { get; set; }
         protected const string CookieName = ".RSAUTH";
         protected const string RowShareLoginConfigKey = "RowShareLogin";
         protected const string RowSharePasswordConfigKey = "RowSharePassword";
+        protected const string RowShareUrl = "https://www.rowshare.com/";
 
         public static string GetData(string url, string login = null, string pwd = null)
         {
@@ -23,11 +22,9 @@ namespace RowShare.Api
                 {
                     client.Headers.Add(HttpRequestHeader.Cookie, String.Format("{0}={1}", CookieName, Cookie));
                 }
-                return client.DownloadString(url);
+                return client.DownloadString(String.Format(CultureInfo.CurrentCulture, "{0}api/{1}", RowShareUrl, url));
             }
         }
-
-
 
         /// <summary>
         /// Set Credentials.
@@ -47,7 +44,7 @@ namespace RowShare.Api
                 if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(pwd))
                     return;
 
-                var client = (HttpWebRequest)WebRequest.Create("https://www.rowshare.com");
+                var client = (HttpWebRequest)WebRequest.Create(RowShareUrl);
                 client.Accept = "Application/json";
                 client.ContentType = "Application/json";
                 client.Headers[HttpRequestHeader.Authorization] = "Basic " + System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(String.Format("{0}:{1}", login, pwd)));

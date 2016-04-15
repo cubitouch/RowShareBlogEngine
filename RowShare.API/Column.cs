@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Net;
 using CodeFluent.Runtime.Utilities;
 
 namespace RowShare.Api
@@ -12,15 +11,8 @@ namespace RowShare.Api
         public Guid ListId { get; set; }
         public string DisplayName { get; set; }
 
-        private List _parent;
         [JsonUtilities(IgnoreWhenSerializing = true)]
-        public List Parent
-        {
-            get
-            {
-                return _parent;
-            }
-        }
+        public List Parent { get; private set; }
 
         public static Collection<Column> GetColumnsByList(List list)
         {
@@ -30,11 +22,11 @@ namespace RowShare.Api
             Collection<Column> columns = GetColumnsByListId(list.Id.ToString().Replace("-", ""));
             foreach (Column column in columns)
             {
-                column._parent = list;
-
+                column.Parent = list;
             }
             return columns;
         }
+
         public static Collection<Column> GetColumnsByListId(string id)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/api/column/loadForParent/{0}", id);
