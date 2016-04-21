@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.MapEngine", "RowShare.MapEngine\RowShare.MapEngine.csproj", "{75976A9B-FAF5-4320-8800-6FFFB00C9DD3}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.CMSEngine", "RowShare.CMSEngine\RowShare.CMSEngine.csproj", "{3EC9C889-5BC7-419C-969E-779FB5493B1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.GraphEngine", "RowShare.GraphEngine\RowShare.GraphEngine.csproj", "{20C1BB66-616A-4998-856E-600685DED0CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RowShare.BrowsingEngine", "RowShare.BrowsingEngine\RowShare.BrowsingEngine.csproj", "{8148C711-0F95-4D99-A47E-7A844F36C79D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{20C1BB66-616A-4998-856E-600685DED0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20C1BB66-616A-4998-856E-600685DED0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20C1BB66-616A-4998-856E-600685DED0CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8148C711-0F95-4D99-A47E-7A844F36C79D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8148C711-0F95-4D99-A47E-7A844F36C79D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8148C711-0F95-4D99-A47E-7A844F36C79D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8148C711-0F95-4D99-A47E-7A844F36C79D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,6 +10,11 @@ namespace RowShare.Api
         public Guid Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
+
+        public int ColumnCount { get; set; }
+
+        public Folder Folder { get; set; }
+
         public Collection<Column> Columns { get; private set; }
         public Collection<Row> Rows { get; private set; }
 

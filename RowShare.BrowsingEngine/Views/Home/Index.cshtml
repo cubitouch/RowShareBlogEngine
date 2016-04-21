@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = ViewBag.BrowsingTitle;
+}
+
+<div class="jumbotron">
+    <h1>Listing your RowShare content</h1>
+</div>
+
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <label for="rowshareTableId" class="col-sm-4 control-label">RowShare UserName</label>
+        <div class="col-sm-8">
+            <div class="input-group">
+                <div class="input-group-addon">User Name</div>
+                <input type="text" class="form-control" id="rowshareUserName" placeholder="Your rowshare username">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+    <label for="rowshareTableId" class="col-sm-4 control-label">RowShare Password</label>
+    <div class="col-sm-8">
+        <div class="input-group">
+            <div class="input-group-addon">Password</div>
+            <input type="password" class="form-control" id="rowsharePassword" placeholder="Your rowshare password">
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-8 col-sm-offset-4">
+        <button id="authenticate" class="btn btn-success">Authenticate and list tables and folders</button>
+    </div>
+</div>
+</div>
+
+<div id="favContainer">
+</div>
+<div class="spacer"></div>
+<div id="content">
+</div>
+
+<script>
+    var _currentData = {};
+    var DisplayFoldersRecursively = function (folder, lvl) {
+        // K9QQzJXzMkeW/fUvmv/Cfg==
+        
+        if (folder.ContainingFolders != null && folder.ContainingFolders.length > 0) {
+            var keys = Object.keys(folder.ContainingFolders);
+            for (var i = 0; i < keys.length; i++) {
+                $('#content').append('<div class="row"><span style="margin: 0 0 0 ' + lvl * 10 + 'px"></span><i class="glyphicon glyphicon-folder-open"></i>' + folder.ContainingFolders[keys[i]]["DisplayName"] + '('+ ((folder.ContainingFolders != null ? folder.ContainingFolders.length : 0) + folder.ContainingLists.length) +')</div>');
+                DisplayFoldersRecursively(folder.ContainingFolders[keys[i]], lvl +1 );
+            }
+        }
+
+        if (folder.ContainingLists.length > 0) {
+            var keys = Object.keys(folder.ContainingLists);
+            for (var i = 0; i < keys.length; i++) {
+                $('#content').append('<div class="row"><span style="margin: 0 0 0 ' + lvl * 10 + 'px"></span><i class="glyphicon glyphicon-list"></i><a target="_blank" href="https://www.rowshare.com/t/' + folder.ContainingLists[keys[i]]["Id"] + '">' + folder.ContainingLists[keys[i]]["DisplayName"] + '</a> (' + folder.ContainingLists[keys[i]]["ColumnCount"] + ' cols)' + (folder.ContainingLists[keys[i]]["Description"] != "" ? (' - <i>' + folder.ContainingLists[keys[i]]["Description"] + '</i>') : '') + '</div>');
+            }
+        }
+
+    }
+
+    $('#authenticate').click(function () {
+     $.get("/Home/Authenticate?login=" + $('#rowshareUserName').val() + "&password=" + $('#rowsharePassword').val(), function (data) {
+                _currentData = data;
+                $('#content')[0].innerHTML = "";
+                $('#content').append('<h2>Your Folders ans Lists:</h2>');
+
+                DisplayFoldersRecursively(data, 0);
+     });
+
+     $.get("/Home/GetFavoriteLists?login=" + $('#rowshareUserName').val() + "&password=" + $('#rowsharePassword').val(), function (dataCollection) {
+         $('#favContainer')[0].innerHTML = "";
+         if (dataCollection.length > 0)
+         {
+             $('#favContainer').append('<h2>You favorites:</h2>')
+         }
+
+         for(var i = 0; i < dataCollection.length; i++)
+         {
+             $('#favContainer').append('<div class="row"><i class="glyphicon glyphicon-list"></i><a target="_blank" href="http://www.rowshare.com/t/' + dataCollection[i]["Id"] + '">' + dataCollection[i]["DisplayName"] + '</a></div>');
+         }
+     });
+    });
+
+
+</script>
