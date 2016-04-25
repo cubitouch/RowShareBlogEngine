@@ -24,7 +24,7 @@
         var locations = [
             @foreach(PointModel point in Model.Points)
                     {
-            <text>["@point.Title", @point.Latitude, @point.Longitude]@(point==Model.Points.Last()?"":",")</text>
+            <text>["@point.Title", @point.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture), @point.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)]@(point==Model.Points.Last()?"":",")</text>
             }
         ];
 
