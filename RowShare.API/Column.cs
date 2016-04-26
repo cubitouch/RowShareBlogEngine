@@ -34,5 +34,25 @@ namespace RowShare.Api
 
             return JsonUtilities.Deserialize<Collection<Column>>(json);
         }
+
+        public static Column GetColumnById(string id)
+        {
+            string url = string.Format(CultureInfo.CurrentCulture, "/column/load/", id);
+            string json = RowShareCommunication.GetData(url);
+
+            return JsonUtilities.Deserialize<Column>(json);
+        }
+
+        public static void DeleteColumn(string id)
+        {
+            var data = GetColumnById(id);
+            DeleteColumn(data);
+        }
+
+        public static void DeleteColumn(Column data)
+        {
+            var url = "/column/delete";
+            RowShareCommunication.DeleteData(url, JsonUtilities.Serialize(data));
+        }
     }
 }

@@ -1,0 +1,68 @@
+﻿@using RowShare.ToDo.Models
+@model  TodoList
+@{
+//ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ToDoList</h1>
+</div>
+<div id="content">
+    @foreach (ToDoItem item in Model.Items)
+    {
+        <div class="row">
+            <span data-id="@item.Id" class="changeCheck">
+                @if (item.Done)
+                {
+                    <i class="glyphicon glyphicon-check"></i>
+                }
+                else
+                {
+                    <i class="glyphicon glyphicon-unchecked"></i>
+                }
+            </span>
+            <span class="item">@item.Item</span>
+            <span data-id="@item.Id" class="deleteItem"><i class="glyphicon glyphicon-remove"></i></span>
+        </div>
+    }
+</div>
+<script>
+
+    function refreshData(list)
+    {
+        $('#content')[0].innerHTML = "";
+        var data = list.Items;
+        for(var i = 0; i<data.length; i++)
+        {
+            var newRow = document.createElement("div");
+            newRow.classList.add("row");
+                
+            if(data[i].Done)
+                newRow.innerHTML = '<span data-id="' + data[i].Id + '" class="changeCheck"><i class="glyphicon glyphicon-check"></i></span><span class="item">' + data[i].Item + '</span><span data-id="' + data[i].Id + '" class="deleteItem"><i class="glyphicon glyphicon-remove"></i></span>';
+            else 
+                newRow.innerHTML = '<span data-id="' + data[i].Id + '" class="changeCheck"><i class="glyphicon glyphicon-unchecked"></i></span><span class="item">' + data[i].Item + '</span><span data-id="' + data[i].Id + '" class="deleteItem"><i class="glyphicon glyphicon-remove"></i></span>';
+
+            document.getElementById('content').appendChild(newRow);
+        }
+        $(".changeCheck").on('click', function (event, handler) {
+            $.get("/Home/ChangeStatus?id=" + $(this)[0].dataset.id, function (list) { refreshData(list) });
+        });
+        $(".deleteItem").on('click', function (event, handler) {
+            $.get("/Home/DeleteItem?id=" + $(this)[0].dataset.id, function (list) { refreshData(list) });
+        });
+    }
+
+    function deleteData(item) {
+
+    }
+
+
+    $(".changeCheck").on('click', function (event, handler) {
+        $.get("/Home/ChangeStatus?id=" + $(this)[0].dataset.id, function (list) { refreshData(list) });
+    });
+
+    $(".deleteItem").on('click', function (event, handler) {
+        $.get("/Home/DeleteItem?id=" + $(this)[0].dataset.id, function (list) { refreshData(list) });
+    });
+
+</script>

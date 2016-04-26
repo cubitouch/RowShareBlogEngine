@@ -10,11 +10,8 @@ namespace RowShare.Api
         public Guid Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
-
         public int ColumnCount { get; set; }
-
         public Folder Folder { get; set; }
-
         public Collection<Column> Columns { get; private set; }
         public Collection<Row> Rows { get; private set; }
 
@@ -35,6 +32,17 @@ namespace RowShare.Api
         {
             Columns = Column.GetColumnsByList(this);
         }
+
+        public static void DeleteList(string id)
+        {
+            var data = GetListById(id);
+            DeleteList(data);
+        }
         
+        public static void DeleteList(List data)
+        {
+            string url = string.Format(CultureInfo.CurrentCulture, "/row/delete/");
+            RowShareCommunication.DeleteData(url, JsonUtilities.Serialize(data));
+        }
     }
 }

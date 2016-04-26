@@ -12,6 +12,8 @@ namespace RowShare.Api
         public string ListId { get; set; }
         public Dictionary<string, object> Values { get; private set; }
 
+        public string Version { get; set; }
+
         [JsonUtilities(IgnoreWhenSerializing = true)]
         public List Parent { get; private set; }
 
@@ -64,6 +66,31 @@ namespace RowShare.Api
         {
             string url = string.Format(CultureInfo.CurrentCulture, "/row/load/{0}", id);
             string json = RowShareCommunication.GetData(url);
+
+            return JsonUtilities.Deserialize<Row>(json, Utility.DefaultOptions);
+        }
+
+        public static void DeleteRow(string id, string version = null)
+        {
+           
+            var data = GetRowById(id);
+            if(version != null && version != data.Version)
+            {
+                return;
+            }
+            DeleteRow(data);
+        }
+
+        public static void DeleteRow(Row data)
+        {
+            string url = string.Format(CultureInfo.CurrentCulture, "/row/delete/");
+            RowShareCommunication.DeleteData(url, JsonUtilities.Serialize(data));
+        }
+
+        public static Row UpdateRow(Row currentRow)
+        {
+            string url = string.Format(CultureInfo.CurrentCulture, "/row/save/");
+            string json = RowShareCommunication.PostData(url, currentRow);
 
             return JsonUtilities.Deserialize<Row>(json, Utility.DefaultOptions);
         }
