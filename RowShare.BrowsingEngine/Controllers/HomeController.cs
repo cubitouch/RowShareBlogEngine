@@ -6,12 +6,15 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.ObjectModel;
+using RowShare.Api;
+using System.Threading.Tasks;
 
 namespace RowShare.BrowsingEngine.Controllers
 {
     public class HomeController : Controller
     {
-        
+
         public ActionResult Error()
         {
             return View();
@@ -22,10 +25,10 @@ namespace RowShare.BrowsingEngine.Controllers
             return View();
         }
 
-        public ActionResult GetFavoriteLists(string login, string password)
+        public async Task<ActionResult> GetFavoriteLists(string login, string password)
         {
-            var rowShareUser = RowShare.Api.RowShareUser.LoadUser(login, password);
-            var favList = rowShareUser.LoadFavoriteLists();
+            RowShareUser rowShareUser = await RowShareUser.LoadUser(login, password).ConfigureAwait(false);
+            Collection<List> favList = await rowShareUser.LoadFavoriteLists().ConfigureAwait(false);
 
             var result = JsonConvert.SerializeObject(favList,
                     Formatting.None,
@@ -37,13 +40,13 @@ namespace RowShare.BrowsingEngine.Controllers
             return Content(result, "application/json");
         }
 
-        public ActionResult Authenticate(string login, string password)
+        public async Task<ActionResult> Authenticate(string login, string password)
         {
-
-            var rowShareUser = RowShare.Api.RowShareUser.LoadUser(login, password);
+            RowShareUser rowShareUser = await RowShareUser.LoadUser(login, password).ConfigureAwait(false);
             var rootFolder = rowShareUser.RootFolder;
-            rootFolder.LoadContent(recursively: true);
-            
+            if (rootFolder != null)
+                await rootFolder.LoadContent(recursively: true).ConfigureAwait(false);
+
             var result = JsonConvert.SerializeObject(rootFolder,
                     Formatting.None,
                 new JsonSerializerSettings()

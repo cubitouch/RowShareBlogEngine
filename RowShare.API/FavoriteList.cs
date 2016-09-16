@@ -18,7 +18,7 @@ namespace RowShare.Api
         {
             get
             {
-                return List.GetListById(ListId);
+                return List.GetListById(ListId).Result;
             }
         }
 

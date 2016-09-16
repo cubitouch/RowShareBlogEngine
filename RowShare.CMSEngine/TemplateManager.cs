@@ -10,6 +10,11 @@ using System.Collections.ObjectModel;
 
 namespace RowShare.CMSEngine
 {
+    public class Resource
+    {
+        public string Slug { get; set; }
+        public string FileUrl { get; set; }
+    }
     public class TemplateManager
     {
         public string ResourceId { get; set; }
@@ -19,15 +24,18 @@ namespace RowShare.CMSEngine
         public string Template { get; set; }
         public List<Resource> Resources { get; set; }
 
-        public TemplateManager(string resourceId, string contentId, string slug)
+        public TemplateManager(string resourceId, string contentId)
         {
             ResourceId = resourceId;
             ContentId = contentId;
+        }
 
+        public async Task<string> Load(string slug)
+        {
             Resources = new List<Resource>();
 
-            List list = List.GetListById(ContentId);
-            Collection<Row> rows = Row.GetRowsByListId(ResourceId);
+            List list = await List.GetListById(ContentId);
+            Collection<Row> rows = await Row.GetRowsByListId(ResourceId);
 
             // init template
             foreach (Row row in rows)
@@ -35,7 +43,7 @@ namespace RowShare.CMSEngine
                 if (row.Values["Slug"].ToString() == "index.html")
                 {
                     WebClient client = new WebClient();
-                    Template = client.DownloadString(Resource.GetResourceLink(row));
+                    Template = client.DownloadString(row.GetResourceLink("File", false));
                 }
             }
 
@@ -47,12 +55,12 @@ namespace RowShare.CMSEngine
                     Resource resource = new Resource();
 
                     resource.Slug = row.Values["Slug"].ToString();
-                    resource.FileUrl = new Uri(Resource.GetResourceLink(row));
+                    resource.FileUrl = row.GetResourceLink("File", false);
 
                     Resources.Add(resource);
                 }
             }
-            
+
             // replace template resources moustaches
             foreach (Resource resource in Resources)
             {
@@ -63,7 +71,7 @@ namespace RowShare.CMSEngine
             Template = Template.Replace("{{CMSEngine.Title}}", list.DisplayName);
             Template = Template.Replace("{{CMSEngine.RSContentId}}", ContentId);
 
-            Collection<Row> contents = Row.GetRowsByListId(ContentId);
+            Collection<Row> contents = await Row.GetRowsByListId(ContentId);
             foreach (Row content in contents)
             {
                 if (content.Values["Slug"].ToString() == slug + "")
@@ -71,6 +79,8 @@ namespace RowShare.CMSEngine
                     Template = Template.Replace("{{CMSEngine.Content}}", content.Values["Content"].ToString());
                 }
             }
+
+            return Template;
         }
     }
 }

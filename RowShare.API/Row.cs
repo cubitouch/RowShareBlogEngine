@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using CodeFluent.Runtime.Utilities;
+using System.IO;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RowShare.Api
 {
@@ -12,87 +14,77 @@ namespace RowShare.Api
         public string ListId { get; set; }
         public Dictionary<string, object> Values { get; private set; }
 
+        public string GetResourceLink(string key, bool isImage = true)
+        {
+            if (Values[key] == null)
+                return string.Empty;
+
+            File file = new File(JsonConvert.DeserializeObject<IDictionary<string, object>>(Values[key].ToString()));
+            if (isImage)
+                return string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/{0}", file.ImageUrl);
+            else
+                return string.Format(CultureInfo.CurrentCulture, "https://www.rowshare.com/{0}", file.ImageUrl.Replace(Path.GetExtension(file.ImageUrl), file.FileName));
+        }
+
         public string Version { get; set; }
 
-        [JsonUtilities(IgnoreWhenSerializing = true)]
         public List Parent { get; private set; }
-
-        //public Dictionary<string, object> ValuesObject
-        //{
-        //    get
-        //    {
-        //        Dictionary<string, object> _valuesObject = new Dictionary<string, object>();
-
-        //        if (Parent != null)
-        //        {
-        //            var cols = Parent.Columns;
-        //            if (cols != null)
-        //            {
-        //                foreach (Column column in cols)
-        //                {
-        //                    _valuesObject.Add(column.DisplayName, Values.GetValue(column.DisplayName, column.Type, null));
-        //                }
-        //            }
-        //        }
-        //        return _valuesObject;
-        //    }
-        //}
 
         public Row()
         {
             Values = new Dictionary<string, object>();
         }
 
-        public static Collection<Row> GetRowsByList(List list)
+        public static async Task<Collection<Row>> GetRowsByList(List list)
         {
             if (list == null)
                 return null;
 
-            Collection<Row> rows = GetRowsByListId(list.Id.ToString().Replace("-", ""));
+            Collection<Row> rows = await GetRowsByListId(list.Id.ToString().Replace("-", ""));
             foreach (Row row in rows)
             {
                 row.Parent = list;
             }
             return rows;
         }
-        public static Collection<Row> GetRowsByListId(string id)
+
+        public static async Task<Collection<Row>> GetRowsByListId(string id)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "row/loadForParent/{0}", id);
-            string json = RowShareCommunication.GetData(url);
-            return JsonUtilities.Deserialize<Collection<Row>>(json, Utility.DefaultOptions);
-
+            string json = await RowShareCommunication.GetData(url);
+            return JsonConvert.DeserializeObject<Collection<Row>>(json);
         }
-        public static Row GetRowById(string id)
+
+        public static async Task<Row> GetRowById(string id)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "/row/load/{0}", id);
-            string json = RowShareCommunication.GetData(url);
-
-            return JsonUtilities.Deserialize<Row>(json, Utility.DefaultOptions);
+            string json = await RowShareCommunication.GetData(url);
+            return JsonConvert.DeserializeObject<Row>(json);
         }
 
-        public static void DeleteRow(string id, string version = null)
-        {
-           
-            var data = GetRowById(id);
-            if(version != null && version != data.Version)
-            {
-                return;
-            }
-            DeleteRow(data);
-        }
+        //public static void DeleteRow(string id, string version = null)
+        //{
 
-        public static void DeleteRow(Row data)
-        {
-            string url = string.Format(CultureInfo.CurrentCulture, "/row/delete/");
-            RowShareCommunication.DeleteData(url, JsonUtilities.Serialize(data));
-        }
+        //    var data = GetRowById(id);
+        //    if(version != null && version != data.Version)
+        //    {
+        //        return;
+        //    }
+        //    DeleteRow(data);
+        //}
 
-        public static Row UpdateRow(Row currentRow)
-        {
-            string url = string.Format(CultureInfo.CurrentCulture, "/row/save/");
-            string json = RowShareCommunication.PostData(url, currentRow);
+        //public static void DeleteRow(Row data)
+        //{
+        //    string url = string.Format(CultureInfo.CurrentCulture, "/row/delete/");
+        //    RowShareCommunication.DeleteData(url, JsonUtilities.Serialize(data));
+        //}
 
-            return JsonUtilities.Deserialize<Row>(json, Utility.DefaultOptions);
-        }
+        //public static Row UpdateRow(Row currentRow)
+        //{
+        //    string url = string.Format(CultureInfo.CurrentCulture, "/row/save/");
+        //    string json = RowShareCommunication.PostData(url, currentRow);
+
+        //    return JsonUtilities.Deserialize<Row>(json, Utility.DefaultOptions);
+        //}
     }
 }

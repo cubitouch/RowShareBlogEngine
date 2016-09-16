@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -24,10 +25,14 @@ namespace RowShare.CMSEngine.Controllers
             }
         }
 
-        public string Index(string slug)
+        public async Task<string> Index(string slug)
         {
-            TemplateManager template = new TemplateManager(ResourceId, ContentId, slug);
-            return template.Template;
+            return  await GetTemplate(slug).ConfigureAwait(false);
+        }
+        private async Task<string> GetTemplate(string slug)
+        {
+            var template = new TemplateManager(ResourceId, ContentId);
+            return await template.Load(slug);
         }
     }
 }

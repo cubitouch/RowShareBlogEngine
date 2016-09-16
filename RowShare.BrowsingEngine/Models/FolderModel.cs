@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace RowShare.BrowsingEngine.Models
 {
@@ -16,14 +17,14 @@ namespace RowShare.BrowsingEngine.Models
 
         public List<ListModel> ContainingLists { get; set; }
 
-        public void LoadContent(string id)
+        public async Task LoadContent(string id)
         {
 
-            var folder = Folder.GetFolderById(id);
+            Folder folder = await Folder.GetFolderById(id);
             if (folder == null)
                 return;
 
-            folder.LoadContent();
+            await folder.LoadContent();
 
             foreach(var f in folder.ContainingFolders)
             {

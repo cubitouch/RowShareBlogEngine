@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{{CMSEngine.Title}}</title>
+    <link href="{{resource/bootstrap.min.css}}" rel="stylesheet" />
+    <link href="{{resource/Site.css}}" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">{{CMSEngine.Title}}</a>
+            </div>
+            <a href="#" class="navbar-brand" style="float:right;" data-toggle="modal" data-target="#aboutModal">About</a>
+        </div>
+    </div>
+    <div class="container body-content">
+       {{CMSEngine.Content}}
+    </div>
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">About</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        This website is build on top of <a target="_blank" href="https://www.rowshare.com/t/{{CMSEngine.RSContentId}}">RowShare</a> using <a target="_blank" href="https://github.com/cubitouch/RowShareWebEngine/tree/master/RowShare.CMSEngine">RowShare.CMSEngine</a>.
+                    </p>
+                    <p>
+                        To run your own, just duplicate the RowShare table and deploy the engine to azure!
+                    </p>
+                    <a href="https://azuredeploy.net/?repository=https://github.com/cubitouch/RowShareWebEngine/tree/master/RowShare.CMSEngine" target="_blank">
+                        <img src="http://azuredeploy.net/deploybutton.png" />
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{resource/jquery-1.10.2.min.js}}"></script>
+    <script src="{{resource/jquery.validate.min.js}}"></script>
+    <script src="{{resource/jquery.validate.unobtrusive.min.js}}"></script>
+    <script src="{{resource/bootstrap.min.js}}"></script>
+    <script src="{{resource/modernizr-2.6.2.js}}"></script>
+    <script src="{{resource/respond.min.js}}"></script>
+</body>
+</html>

@@ -1,7 +1,8 @@
-﻿using CodeFluent.Runtime.Utilities;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RowShare.Api
 {
@@ -15,30 +16,32 @@ namespace RowShare.Api
 
         public Collection<Folder> ContainingFolders { get; private set; }
 
-        public static Folder GetFolderById(string id)
+        public static async Task<Folder> GetFolderById(string id)
         {
+            if (id == null)
+                return null;
+
             string url = string.Format(CultureInfo.CurrentCulture, "folder/load/{0}", id.ToString().Replace("-", ""));
-            string json = RowShareCommunication.GetData(url);
-            return JsonUtilities.Deserialize<Folder>(json, Utility.DefaultOptions);
+            string json = await RowShareCommunication.GetData(url);
+            return JsonConvert.DeserializeObject<Folder>(json);
         }
 
-        public void LoadContent(bool recursively = false)
+        public async Task LoadContent(bool recursively = false)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "list/loadforparent/{0}", Id.ToString().Replace("-", ""));
-            string json = RowShareCommunication.GetData(url);
-            ContainingLists = JsonUtilities.Deserialize<Collection<List>>(json, Utility.DefaultOptions);
+            string json = await RowShareCommunication.GetData(url);
+            ContainingLists = JsonConvert.DeserializeObject<Collection<List>>(json);
 
             url = string.Format(CultureInfo.CurrentCulture, "folder/loadforparent/{0}", Id.ToString().Replace("-", ""));
-            json = RowShareCommunication.GetData(url);
-            ContainingFolders = JsonUtilities.Deserialize<Collection<Folder>>(json, Utility.DefaultOptions);
-            if(recursively)
+            json = await RowShareCommunication.GetData(url);
+            ContainingFolders = JsonConvert.DeserializeObject<Collection<Folder>>(json);
+            if (recursively)
             {
-                foreach(var folder in ContainingFolders)
+                foreach (var folder in ContainingFolders)
                 {
-                    folder.LoadContent(recursively);
+                    await folder.LoadContent(recursively);
                 }
             }
         }
-
     }
 }

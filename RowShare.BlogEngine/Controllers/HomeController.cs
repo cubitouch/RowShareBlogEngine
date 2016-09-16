@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
 
 namespace RowShare.BlogEngine.Controllers
 {
@@ -21,10 +22,10 @@ namespace RowShare.BlogEngine.Controllers
         {
             return View();
         }
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             BlogModel blog = new BlogModel();
-            blog.LoadBlog(BlogId, true);
+            await blog.LoadBlog(BlogId, true).ConfigureAwait(false);
             if (blog.Id == new Guid())
             {
                 return RedirectToAction("Error");
@@ -36,10 +37,10 @@ namespace RowShare.BlogEngine.Controllers
             ViewBag.BlogKeywords = blog.Title;
             return View(blog);
         }
-        public ActionResult Article(string id)
+        public async Task<ActionResult> Article(string id)
         {
             BlogModel blog = new BlogModel();
-            blog.LoadBlog(BlogId);
+            await blog.LoadBlog(BlogId).ConfigureAwait(false);
             if (blog.Id == Guid.NewGuid())
             {
                 return RedirectToAction("Error");

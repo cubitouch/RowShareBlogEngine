@@ -1,9 +1,9 @@
-﻿using CodeFluent.Runtime.Utilities;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
 using System.Globalization;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace RowShare.Api
 {
@@ -15,52 +15,62 @@ namespace RowShare.Api
         protected const string RowSharePasswordConfigKey = "RowSharePassword";
         protected const string RowShareUrl = "https://www.rowshare.com/";
 
-        public static string GetData(string url, string login = null, string pwd = null)
+        public async static Task<string> GetData(string url, string login = null, string pwd = null)
         {
-            SetCredentials(login, pwd);
-            using (var client = new WebClient())
+            if (login != null && pwd != null)
             {
-                if (!String.IsNullOrEmpty(Cookie))
+                SetCredentials(login, pwd);
+                using (var client = new WebClient())
                 {
-                    client.Headers.Add(HttpRequestHeader.Cookie, String.Format("{0}={1}", CookieName, Cookie));
+                    if (!String.IsNullOrEmpty(Cookie))
+                    {
+                        client.Headers.Add(HttpRequestHeader.Cookie, String.Format("{0}={1}", CookieName, Cookie));
+                    }
+                    return client.DownloadString(String.Format(CultureInfo.CurrentCulture, "{0}api/{1}", RowShareUrl, url));
                 }
-                return client.DownloadString(String.Format(CultureInfo.CurrentCulture, "{0}api/{1}", RowShareUrl, url));
+            }
+            else
+            {
+                using (var client = new HttpClient())
+                {
+                    return await client.GetStringAsync(String.Format(CultureInfo.CurrentCulture, "{0}api/{1}", RowShareUrl, url));
+                }
             }
         }
 
-        public static string PostData(string url, Row row, string login = null, string pwd = null)
-        {
-            SetCredentials(login, pwd);
-            using (var client = new WebClient())
-            {
-                if(!String.IsNullOrEmpty(Cookie))
-                {
-                    client.Headers.Add(HttpRequestHeader.Cookie, String.Format("{0}={1}", CookieName, Cookie));
-                }
-                client.Headers.Add(HttpRequestHeader.Accept, "*");
-                client.Headers.Add(HttpRequestHeader.ContentType, "Application/json");
+        //public static string PostData(string url, Row row, string login = null, string pwd = null)
+        //{
+        //    SetCredentials(login, pwd);
+        //    using (var client = new WebClient())
+        //    {
+        //        if(!String.IsNullOrEmpty(Cookie))
+        //        {
+        //            client.Headers.Add(HttpRequestHeader.Cookie, String.Format("{0}={1}", CookieName, Cookie));
+        //        }
+        //        client.Headers.Add(HttpRequestHeader.Accept, "*");
+        //        client.Headers.Add(HttpRequestHeader.ContentType, "Application/json");
 
-                var data = JsonUtilities.Serialize(row);
-                return client.UploadString(String.Format(CultureInfo.CurrentCulture, "{0}api/{1}", RowShareUrl, url), data);
-            }
-        }
+        //        var data = JsonUtilities.Serialize(row);
+        //        return client.UploadString(String.Format(CultureInfo.CurrentCulture, "{0}api/{1}", RowShareUrl, url), data);
+        //    }
+        //}
 
-        public static string DeleteData(string url, String jsonData, string login = null, string pwd = null)
-        {
-            SetCredentials(login, pwd);
-            var deleteUrl = String.Format(CultureInfo.CurrentCulture, "{0}api/{1}", RowShareUrl, url);
-            using (var client = new WebClient())
-            {
-                if (!String.IsNullOrEmpty(Cookie))
-                {
-                    client.Headers.Add(HttpRequestHeader.Cookie, String.Format("{0}={1}", CookieName, Cookie));
-                }
-                client.Headers.Add(HttpRequestHeader.Accept, "*");
-                client.Headers.Add(HttpRequestHeader.ContentType, "Application/json");
+        //public static string DeleteData(string url, String jsonData, string login = null, string pwd = null)
+        //{
+        //    SetCredentials(login, pwd);
+        //    var deleteUrl = String.Format(CultureInfo.CurrentCulture, "{0}api/{1}", RowShareUrl, url);
+        //    using (var client = new WebClient())
+        //    {
+        //        if (!String.IsNullOrEmpty(Cookie))
+        //        {
+        //            client.Headers.Add(HttpRequestHeader.Cookie, String.Format("{0}={1}", CookieName, Cookie));
+        //        }
+        //        client.Headers.Add(HttpRequestHeader.Accept, "*");
+        //        client.Headers.Add(HttpRequestHeader.ContentType, "Application/json");
 
-                return client.UploadString(deleteUrl, jsonData);
-            }
-        }
+        //        return client.UploadString(deleteUrl, jsonData);
+        //    }
+        //}
 
         /// <summary>
         /// Set Credentials.
@@ -80,7 +90,7 @@ namespace RowShare.Api
                 if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(pwd))
                     return;
 
-                var client = (HttpWebRequest)WebRequest.Create(RowShareUrl);
+                var client = (HttpWebRequest)WebRequest.Create("https://beta.rowshare.com/" + "api/user");
                 client.Accept = "Application/json";
                 client.ContentType = "Application/json";
                 client.Headers[HttpRequestHeader.Authorization] = "Basic " + System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(String.Format("{0}:{1}", login, pwd)));
@@ -94,6 +104,5 @@ namespace RowShare.Api
                 }
             }
         }
-
     }
 }

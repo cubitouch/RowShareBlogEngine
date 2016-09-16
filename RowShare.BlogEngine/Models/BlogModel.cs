@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using RowShare.Api;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace RowShare.BlogEngine.Models
 {
@@ -17,9 +18,9 @@ namespace RowShare.BlogEngine.Models
             Articles = new List<ArticleModel>();
         }
 
-        public void LoadBlog(string id, bool withArticles = false)
+        public async Task LoadBlog(string id, bool withArticles = false)
         {
-            List list = List.GetListById(id);
+            List list = await List.GetListById(id).ConfigureAwait(false);
 
             if (list != null)
             {
@@ -29,13 +30,13 @@ namespace RowShare.BlogEngine.Models
 
                 if (withArticles)
                 {
-                    LoadBlogArticles(id);
+                    await LoadBlogArticles(id).ConfigureAwait(false);
                 }
             }
         }
-        public void LoadBlogArticles(string id)
+        public async Task LoadBlogArticles(string id)
         {
-            Collection<Row> rows = Row.GetRowsByListId(id);
+            Collection<Row> rows = await Row.GetRowsByListId(id);
 
             foreach (Row row in rows)
             {

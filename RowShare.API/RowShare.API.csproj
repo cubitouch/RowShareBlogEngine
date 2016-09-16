@@ -38,8 +38,8 @@
     <AssemblyOriginatorKeyFile>RowShare.Api.Signature.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CodeFluent.Runtime.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1bb6d7cccf1045ec, processorArchitecture=MSIL">
-      <HintPath>..\packages\CodeFluentRuntimeClient.1.0.0.838\lib\CodeFluent.Runtime.Client.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -57,7 +57,6 @@
     <Compile Include="File.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Resource.cs" />
     <Compile Include="RowShareCommunication.cs" />
     <Compile Include="RowShareUser.cs" />
     <Compile Include="Utility.cs" />
@@ -67,9 +66,6 @@
     <Compile Include="List.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="External\Readme.txt" />
-    <Content Include="External\x64\CodeFluent.Runtime.Compression.dll" />
-    <Content Include="External\x86\CodeFluent.Runtime.Compression.dll" />
     <Content Include="Nuspec\logo.png" />
   </ItemGroup>
   <ItemGroup>

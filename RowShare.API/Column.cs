@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using CodeFluent.Runtime.Utilities;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RowShare.Api
 {
@@ -10,16 +11,15 @@ namespace RowShare.Api
         public Guid Id { get; set; }
         public Guid ListId { get; set; }
         public string DisplayName { get; set; }
-
-        [JsonUtilities(IgnoreWhenSerializing = true)]
+        
         public List Parent { get; private set; }
 
-        public static Collection<Column> GetColumnsByList(List list)
+        public static async Task<Collection<Column>> GetColumnsByList(List list)
         {
             if (list == null)
                 return null;
 
-            Collection<Column> columns = GetColumnsByListId(list.Id.ToString().Replace("-", ""));
+            Collection<Column> columns = await GetColumnsByListId(list.Id.ToString().Replace("-", ""));
             foreach (Column column in columns)
             {
                 column.Parent = list;
@@ -27,32 +27,32 @@ namespace RowShare.Api
             return columns;
         }
 
-        public static Collection<Column> GetColumnsByListId(string id)
+        public static async Task<Collection<Column>> GetColumnsByListId(string id)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "/column/loadForParent/{0}", id);
-            string json = RowShareCommunication.GetData(url); 
+            string json = await RowShareCommunication.GetData(url);
 
-            return JsonUtilities.Deserialize<Collection<Column>>(json);
+            return JsonConvert.DeserializeObject<Collection<Column>>(json);
         }
 
-        public static Column GetColumnById(string id)
+        public static async Task<Column> GetColumnById(string id)
         {
             string url = string.Format(CultureInfo.CurrentCulture, "/column/load/", id);
-            string json = RowShareCommunication.GetData(url);
+            string json = await RowShareCommunication.GetData(url);
 
-            return JsonUtilities.Deserialize<Column>(json);
+            return JsonConvert.DeserializeObject<Column>(json);
         }
 
-        public static void DeleteColumn(string id)
-        {
-            var data = GetColumnById(id);
-            DeleteColumn(data);
-        }
+        //public static void DeleteColumn(string id)
+        //{
+        //    var data = GetColumnById(id);
+        //    DeleteColumn(data);
+        //}
 
-        public static void DeleteColumn(Column data)
-        {
-            var url = "/column/delete";
-            RowShareCommunication.DeleteData(url, JsonUtilities.Serialize(data));
-        }
+        //public static void DeleteColumn(Column data)
+        //{
+        //    var url = "/column/delete";
+        //    RowShareCommunication.DeleteData(url, JsonUtilities.Serialize(data));
+        //}
     }
 }

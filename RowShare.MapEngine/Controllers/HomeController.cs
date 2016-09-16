@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using RowShare.MapEngine.Models;
@@ -21,10 +22,10 @@ namespace RowShare.MapEngine.Controllers
         {
             return View();
         }
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             MapModel map = new MapModel();
-            map.LoadMap(MapId);
+            await map.LoadMap(MapId).ConfigureAwait(false);
             if (map.Id == new Guid())
             {
                 return RedirectToAction("Error");

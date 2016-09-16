@@ -6,6 +6,7 @@ namespace RowShare.Api
     {
         public string ContentType { get; set; }
         public string FileName { get; set; }
+        public string ImageUrl { get; set; }
 
         public File(IDictionary<string, object> file)
         {
@@ -14,6 +15,7 @@ namespace RowShare.Api
 
             ContentType = file["ContentType"].ToString();
             FileName = file["FileName"].ToString();
+            ImageUrl = file["ImageUrl"].ToString();
         }
     }
 }

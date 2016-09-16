@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using RowShare.Api;
 
@@ -12,11 +13,11 @@ namespace RowShare.GraphEngine.Controllers
         }
 
         [HttpGet]
-        public ContentResult LoadGraphData(string id)
+        public async Task<ContentResult> LoadGraphData(string id)
         {
-            List list = List.GetListById(id);
+            List list = await List.GetListById(id).ConfigureAwait(false);
             list.LoadColumns();
-            list.LoadRows();
+            await list.LoadRows().ConfigureAwait(false);
 
             var result = JsonConvert.SerializeObject(list,
                 Formatting.None,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using RowShare.Api;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace RowShare.MapEngine.Models
 {
@@ -17,9 +18,9 @@ namespace RowShare.MapEngine.Models
             Points = new List<PointModel>();
         }
 
-        public void LoadMap(string id)
+        public async Task LoadMap(string id)
         {
-            List list = List.GetListById(id);
+            List list = await List.GetListById(id).ConfigureAwait(false);
 
             if (list != null)
             {
@@ -27,12 +28,12 @@ namespace RowShare.MapEngine.Models
                 Title = list.DisplayName;
                 Description = list.Description;
 
-                LoadPoints(id);
+                await LoadPoints(id);
             }
         }
-        public void LoadPoints(string id)
+        public async Task LoadPoints(string id)
         {
-            Collection<Row> rows = Row.GetRowsByListId(id);
+            Collection<Row> rows = await Row.GetRowsByListId(id).ConfigureAwait(false);
 
             foreach (Row row in rows)
             {

@@ -1,10 +1,6 @@
-﻿using CodeFluent.Runtime.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RowShare.Api
 {
@@ -16,36 +12,33 @@ namespace RowShare.Api
         public string NickName { get; set; }
         
         public string RootFolderId { get; set; }
-
-        [JsonUtilities(IgnoreWhenSerializing =true)]
+        
         public Folder RootFolder
         {
             get
             {
-                return Folder.GetFolderById(RootFolderId);
+                return Folder.GetFolderById(RootFolderId).Result;
             }
         }
 
-        public static RowShareUser LoadUser(string userName, string password)
+        public async static Task<RowShareUser> LoadUser(string userName, string password)
         {
-            var json = RowShareCommunication.GetData("user", userName, password);
-            var rsUser = JsonUtilities.Deserialize<RowShareUser>(json, Utility.DefaultOptions);
+            string json = await RowShareCommunication.GetData("user", userName, password);
+            var rsUser = JsonConvert.DeserializeObject<RowShareUser>(json);
             return rsUser;
         }
 
-        public Collection<List> LoadFavoriteLists()
+        public async Task<Collection<List>> LoadFavoriteLists()
         {
-            var json = RowShareCommunication.GetData("userlistlink/loadall");
-            var favList = JsonUtilities.Deserialize<Collection<FavoriteList>>(json, Utility.DefaultOptions);
+            string json = await RowShareCommunication.GetData("userlistlink/loadall");
+            var favList = JsonConvert.DeserializeObject<Collection<FavoriteList>>(json);
             var toReturn = new Collection<List>();
-            foreach(var fav in favList)
+            foreach (var fav in favList)
             {
-                if(fav.IsFavorite)
+                if (fav.IsFavorite)
                     toReturn.Add(fav.List);
             }
             return toReturn;
-
         }
-
     }
 }

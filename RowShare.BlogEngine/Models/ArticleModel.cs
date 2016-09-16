@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using RowShare.Api;
 
 namespace RowShare.BlogEngine.Models
@@ -38,9 +39,9 @@ namespace RowShare.BlogEngine.Models
             Keywords = row.Values["Keywords"].ToString();
             Content = row.Values["Content"].ToString();
         }
-        public void LoadArticle(string id)
+        public async Task LoadArticle(string id)
         {
-            Row row = Row.GetRowById(id);
+            Row row = await Row.GetRowById(id).ConfigureAwait(false);
             Init(row);
         }
     }

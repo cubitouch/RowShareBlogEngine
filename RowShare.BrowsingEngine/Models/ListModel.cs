@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace RowShare.BrowsingEngine.Models
 {
@@ -19,17 +20,16 @@ namespace RowShare.BrowsingEngine.Models
             ParentFolder = new FolderModel();
         }
 
-        public void LoadList(string id)
+        public async Task LoadList(string id)
         {
-            var list = List.GetListById(id);
+            List list = await List.GetListById(id);
 
             if (list == null)
                 return;
             Id = list.Id;
             Title = list.DisplayName;
             
-            ParentFolder.LoadContent(list.Folder.Id.ToString());
-            
+            await ParentFolder.LoadContent(list.Folder.Id.ToString());            
         }
 
     }
